@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-6">Spotify Clone 🎵</h1>
+        {% if message %}
+            <div class="text-center bg-green-600 text-white p-2 rounded-md mb-4">
+            {{ message }}
+            </div>
+        {% endif %}
+
+        <!-- Форма загрузки файлов -->
+        <div class="flex justify-center mb-6">
+            <form action="/upload/" method="post" enctype="multipart/form-data" class="mb-4">
+                <input type="file" name="file" accept="audio/*" class="border p-2 rounded">
+                <button type="submit" class="bg-blue-500 text-white p-2 rounded">Загрузить</button>
+            </form>
+
+        </div>
+
+        <!-- Плейлист -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">Playlist</h2>
+            <ul id="playlist" class="space-y-2">
+                {% for file in files %}
+                    <li class="p-2 rounded-md bg-gray-700 hover:bg-gray-600 cursor-pointer" onclick="playAudio('/play/{{ file }}')">
+                        🎵 {{ file }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Аудиоплеер -->
+        <div class="mt-6 flex justify-center">
+            <audio id="audioPlayer" controls autoplay class="w-2/3">
+                <source id="audioSource" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        function playAudio(src) {
+            const audio = document.getElementById("audioPlayer");
+            const source = document.getElementById("audioSource");
+            source.src = src;
+            audio.load();
+            audio.play();
+        }
+    </script>
+</body>
+</html>
